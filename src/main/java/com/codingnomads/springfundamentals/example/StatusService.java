@@ -13,4 +13,10 @@ public class StatusService {
             return "springfundamentals/goodbye";
         }
     }
+
+    public String logSuccess() {
+        // Simulate some logic, e.g., logging or side-effect
+        System.out.println("Success endpoint was called.");
+        return "springfundamentals/success";
+    }
 }

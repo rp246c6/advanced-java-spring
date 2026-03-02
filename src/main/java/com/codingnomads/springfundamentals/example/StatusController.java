@@ -22,4 +22,9 @@ public class StatusController {
     public String sayGoodbye() {
         return statusService.processStatus(false);
     }
+
+    @GetMapping("/success")
+    public String saySuccess () {
+        return statusService.logSuccess();
+    }
 }

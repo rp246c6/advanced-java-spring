@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class Laptop {
     private Processor processor;
     private OS os;
+    private Color color;
 
     @Autowired
     public void setProcessor(Processor processor) {
@@ -19,7 +20,11 @@ public class Laptop {
         this.os = os;
     }
 
+    @Autowired
+    public void setColor(Color color) {
+        this.color = color;
+    }
     public String printLaptopConfiguration() {
-        return "processor: " + processor.getCore() + " core " + processor.getName() + "\nOS: " + os.getName();
+        return "processor: " + processor.getCore() + " core " + processor.getName() + "\nOS: " + os.getName() + "\nColor: " + color.getColor();
     }
 }

@@ -7,9 +7,18 @@ import org.springframework.context.annotation.Scope;
 
 @Configuration
 public class PrototypeDemoConfig {
+
     @Bean
     @Scope(value = "prototype")
     public SpringBean springBean() {
         return new SpringBean();
     }
+
+    @Bean
+    @Scope(value = "prototype")
+    public CloudBean cloudBean() {
+
+        return new CloudBean();
+    }
+
 }

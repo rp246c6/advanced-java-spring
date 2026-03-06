@@ -9,6 +9,7 @@ public class BeanLifeCycleDemo {
         ctx.register(BeanLifeCycleConfig.class);
         ctx.refresh();
         final SpringBean springBean = ctx.getBean(SpringBean.class);
+        final CloudBean cloudBean = ctx.getBean(CloudBean.class);
         ctx.close();
     }
 }

@@ -15,7 +15,7 @@ public class SoilTypeService {
     @Autowired
     SoilTypeRepo soilTypeRepo;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public void getSoilTypeDetails () {
 
             System.out.println("SORTED DRY SOIL TYPE");

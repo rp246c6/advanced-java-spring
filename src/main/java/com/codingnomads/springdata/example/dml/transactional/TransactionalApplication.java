@@ -50,10 +50,18 @@ public class TransactionalApplication implements CommandLineRunner {
         }*/
 
         // New transactional demo methods
+
         successfulTransactionDemo();
+
         rollbackTransactionDemo();
 
+
+
+
+
     }
+
+
     /**
      * REQUIRED propagation ensures a transaction is created if none exists.
      * This method will commit successfully.
@@ -74,8 +82,7 @@ public class TransactionalApplication implements CommandLineRunner {
             pointService.rollbackFor();
         } catch (IOException e) {
             // do nothing... move on
-            throw new IOException("Transaction will roll back");
+            //throw new IOException("Transaction will roll back");
         }
     }
-
 }

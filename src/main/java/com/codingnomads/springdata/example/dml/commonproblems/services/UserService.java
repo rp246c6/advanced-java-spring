@@ -69,6 +69,7 @@ public class UserService {
         userRepo.save(user);
     }
 
+    @Transactional(readOnly = true)
     public void querySomeData() {
 
         // find user by username

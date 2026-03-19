@@ -13,9 +13,16 @@ public class IOCDemoConfiguration {
     }
 
     @Bean
+    public GreetingProvider friendlyGreetingProvider() {
+        return new FriendlyGreetingProvider();
+    }
+
+    @Bean
     public GreetingRenderer renderer() {
         GreetingRenderer renderer = new StandardOutGreetingRenderer();
         renderer.setGreetingProvider(provider());
         return renderer;
     }
+
+
 }

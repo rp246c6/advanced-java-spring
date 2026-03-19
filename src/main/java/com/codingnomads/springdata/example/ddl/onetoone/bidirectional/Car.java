@@ -27,4 +27,13 @@ public class Car {
             // to the field in the Driver class that defines the relationship
             mappedBy = "car")
     private Driver driver;
+
+    // note that this annotation and field is new
+    @OneToOne(
+            // used to indicate that this is the child side of a relationship and refer the JPA
+            // to the field in the Driver class that defines the relationship
+            mappedBy = "car")
+    private Key key;
+
+
 }

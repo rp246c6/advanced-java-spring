@@ -17,4 +17,7 @@ public class LaptopConfiguration {
     public OS os() {
         return new OS("ubuntu");
     }
+
+    @Bean
+    public Color color() { return new Color("grey"); }
 }

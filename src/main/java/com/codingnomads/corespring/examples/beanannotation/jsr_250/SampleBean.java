@@ -18,5 +18,16 @@ public class SampleBean {
     @PreDestroy
     public void cleanup() {
         System.out.println("time to @PreDestroy and head home..");
+     }
+
+    @PostConstruct
+    public void initializeConnection() {
+        System.out.println("bean @PostConstruct: Connection is gathering resources..");
+    }
+
+    @PreDestroy
+    public void closeConnection() {
+        System.out.println("time to @PreDestroy: Connection and head home..");
+
     }
 }

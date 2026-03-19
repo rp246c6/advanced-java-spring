@@ -14,5 +14,15 @@ public class DependencyLookUpApplicationDemo {
         ApplicationContext ctx = new AnnotationConfigApplicationContext(IOCDemoConfiguration.class);
         GreetingRenderer greetingRenderer = ctx.getBean("renderer", GreetingRenderer.class);
         greetingRenderer.render();
+
+        //Get your custom GreetingProvider from the context
+        GreetingProvider friendlyGreetingProvider = ctx.getBean(FriendlyGreetingProvider.class);
+
+        //Set greetingRenderer's GreetingProvider to this new instance
+        greetingRenderer.setGreetingProvider(friendlyGreetingProvider);
+
+        //Render again — now prints your custom greeting
+        greetingRenderer.render();
+
     }
 }

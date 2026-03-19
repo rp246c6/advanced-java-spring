@@ -9,6 +9,7 @@ public class DependsOnDemo {
         ctx.register(DependsOnDemoConfig.class);
         ctx.refresh();
         final SpringDeveloper springDeveloper = ctx.getBean(SpringDeveloper.class);
+        final JavaDeveloper javaDeveloper = ctx.getBean(JavaDeveloper.class);
         ctx.close();
     }
 }

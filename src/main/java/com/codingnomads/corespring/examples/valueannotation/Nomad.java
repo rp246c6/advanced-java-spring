@@ -13,6 +13,8 @@ public class Nomad {
 
     private Integer age;
 
+
+
     public Nomad(@Value("${nomad.name}") String name, @Value("${nomad.age}") Integer age) {
         this.name = name;
         this.age = age;
@@ -29,6 +31,9 @@ public class Nomad {
 
     @Value("${nomad.ide:IntelliJ IDEA}")
     private String ide;
+
+    @Value("${nomad.location}")
+    private String location;
 
     @Value("${nomad.workingDays}")
     private List<String> workingDays;
@@ -51,6 +56,10 @@ public class Nomad {
                 .concat(framework)
                 .concat(" and ")
                 .concat(ide);
+    }
+
+    public String location() {
+        return "CodingNomads location is ".concat(location);
     }
 
     public List<String> getWorkingDays() {

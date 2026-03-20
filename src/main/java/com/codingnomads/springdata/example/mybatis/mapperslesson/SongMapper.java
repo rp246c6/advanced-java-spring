@@ -37,4 +37,13 @@ public interface SongMapper {
 
     @Delete("DELETE FROM mybatis.songs " + "WHERE artist_name = #{artistName} AND album_name = #{albumName};")
     void deleteSongsByAlbumAndArtist(String artistName, String albumName);
+
+    //new method added--- Count songs by artist
+    @Select("SELECT COUNT(*) FROM mybatis.songs WHERE artist_name = #{param1};")
+    int countSongsByArtist(String artistName);
+
+    //new method added--- Find songs by partial name (LIKE search)
+    @Select("SELECT * FROM mybatis.songs WHERE name LIKE CONCAT('%', #{param1}, '%');")
+    List<Song> getSongsByPartialName(String keyword);
+
 }

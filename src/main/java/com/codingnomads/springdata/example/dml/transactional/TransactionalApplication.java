@@ -55,10 +55,6 @@ public class TransactionalApplication implements CommandLineRunner {
 
         rollbackTransactionDemo();
 
-
-
-
-
     }
 
 

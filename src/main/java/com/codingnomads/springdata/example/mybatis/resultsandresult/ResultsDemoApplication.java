@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class ResultsDemoApplication {
 
@@ -14,7 +16,7 @@ public class ResultsDemoApplication {
     }
 
     @Bean
-    public CommandLineRunner loadInitialData(SongMapper songMapper) {
+    public CommandLineRunner loadInitialData(SongMapper songMapper,BookMapper bookMapper) {
         return (args) -> {
             // notice the setter names have changed to match Java naming conventions
             Song song1 = new Song();
@@ -34,6 +36,30 @@ public class ResultsDemoApplication {
 
             Song song3 = songMapper.getSongById(1L);
             System.out.println(song3.toString());
+
+            // 1. Insert a new Book
+            Book book = new Book("1984", "George Orwell", "Dystopian", 328);
+            bookMapper.insertBook(book);
+            System.out.println("Inserted Book with ID: " + book.getId());
+
+           // 2. Find Book by ID
+            Book foundBook = bookMapper.findBookById(book.getId());
+            System.out.println("Found Book: " + foundBook);
+
+           // 3. Find all Books
+            List<Book> allBooks = bookMapper.findAllBooks();
+            System.out.println("All Books in DB:");
+            allBooks.forEach(System.out::println);
+
+            // 4. Delete Book by ID
+            bookMapper.deleteBook(book.getId());
+            System.out.println("Deleted Book with ID: " + book.getId());
+
+            // Verify deletion
+            List<Book> afterDelete = bookMapper.findAllBooks();
+            System.out.println("Books after deletion:");
+            afterDelete.forEach(System.out::println);
+
         };
     }
 }

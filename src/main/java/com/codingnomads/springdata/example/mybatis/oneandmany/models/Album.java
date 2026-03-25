@@ -1,21 +1,18 @@
-/* CodingNomads (C)2024 */
 package com.codingnomads.springdata.example.mybatis.oneandmany.models;
 
-import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
-@ToString(exclude = "albums")
-public class Artist {
-
+@ToString(exclude = "songs")
+public class Album {
     private Long id;
-
     private String name;
-
-    private String bio;
-
-    private List<Album> albums; // Replaces List<Song>
+    private String year;
+    private Artist artist; // Many-to-One
+    private List<Song> songs; // One-to-Many
 }

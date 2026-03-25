@@ -13,7 +13,7 @@ public interface ArtistMapper {
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void insertNewArtist(Artist artist);
 
-    @Select("SELECT * FROM mybatis.artists WHERE id = #{param1};")
+   /* @Select("SELECT * FROM mybatis.artists WHERE id = #{param1};")
     @Results({
         @Result(property = "id", column = "id"),
         @Result(
@@ -26,7 +26,15 @@ public interface ArtistMapper {
                                         "com.codingnomads.springdata.example.mybatis.oneandmany.mappers.SongMapper.getSongsByArtistId",
                                 fetchType = FetchType.LAZY))
     })
-    Artist getArtistByIdWithSongs(Long id);
+    Artist getArtistByIdWithSongs(Long id);*/
+
+    @Select("SELECT * FROM mybatis.artists WHERE id = #{id}")
+    @Results({
+            @Result(property = "id", column = "id"),
+            @Result(property = "albums", column = "id",
+                    many = @Many(select = "com.codingnomads.springdata.example.mybatis.oneandmany.mappers.AlbumMapper.getAlbumsByArtistId"))
+    })
+    Artist getArtistById(Long id);
 
     @Select("SELECT * FROM mybatis.artists WHERE id = #{param1};")
     Artist getArtistByIdWithoutSongs(Long id);

@@ -10,12 +10,12 @@ import org.apache.ibatis.mapping.FetchType;
 @Mapper
 public interface SongMapper {
 
-    @Insert("INSERT INTO mybatis.songs " + "(name, artist_id, album_name, song_length) "
-            + "VALUES (#{name}, #{artist.id}, #{albumName}, #{songLength});")
+    @Insert("INSERT INTO mybatis.songs " + "(name, artist_id, album_id, song_length) "
+            + "VALUES (#{name}, #{artist.id}, #{album.id}, #{songLength});")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void insertNewSong(Song song);
 
-    @Select("SELECT * " + "FROM mybatis.songs " + "WHERE id = #{param1};")
+   /* @Select("SELECT * " + "FROM mybatis.songs " + "WHERE id = #{param1};")
     @Results(
             id = "songResultMap",
             value = {
@@ -32,7 +32,22 @@ public interface SongMapper {
                                                 "com.codingnomads.springdata.example.mybatis.oneandmany.mappers.ArtistMapper.getArtistByIdWithoutSongs",
                                         fetchType = FetchType.LAZY))
             })
+    Song getSongById(Long id);*/
+   @Select("SELECT * FROM mybatis.songs WHERE id = #{id}")
+   @Results(id = "songResultMap", value = { // <--- ADD THIS ID HERE
+           @Result(property = "id", column = "id"),
+           @Result(property = "name", column = "name"), // Ensure name is mapped
+           @Result(property = "songLength", column = "song_length"), // Ensure length is mapped
+           @Result(property = "artist", column = "artist_id",
+                   one = @One(select = "com.codingnomads.springdata.example.mybatis.oneandmany.mappers.ArtistMapper.getArtistByIdWithoutSongs")),
+           @Result(property = "album", column = "album_id",
+                   one = @One(select = "com.codingnomads.springdata.example.mybatis.oneandmany.mappers.AlbumMapper.getAlbumById"))
+   })
     Song getSongById(Long id);
+
+    @Select("SELECT * FROM mybatis.songs WHERE album_id = #{albumId}")
+    List<Song> getSongsByAlbumId(Long albumId);
+
 
     @Select("SELECT * " + "FROM mybatis.songs " + "WHERE name = #{param1};")
     @ResultMap("songResultMap")

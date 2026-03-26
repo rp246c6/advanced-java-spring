@@ -8,8 +8,9 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface LessonMapper {
 
-    @Insert("INSERT INTO mybatis.lessons (name, text, chapter_id) VALUES (#{param1}, #{param2}, #{param3});")
-    void insertNewLesson(String lessonName, String text, Long chapterId);
+    @Insert("INSERT INTO mybatis.lessons (name, text, chapter_id) VALUES (#{name}, #{text}, #{chapterId});")
+    @Options(useGeneratedKeys = true, keyProperty = "id") // This populates lesson.id
+    void insertNewLesson(Lesson lesson);
 
     @Insert("INSERT INTO mybatis.lesson_image (lesson_id, image_name) VALUES (#{param1}, #{param2});")
     void addImageToLesson(Long lessonId, String imageName);

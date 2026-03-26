@@ -10,8 +10,10 @@ import org.apache.ibatis.mapping.FetchType;
 @Mapper
 public interface ChapterMapper {
 
-    @Insert("INSERT INTO mybatis.chapters (name, section_id) VALUES (#{param1}, #{param2});")
-    void insertNewChapter(String name, Long sectionId);
+    // Change this to use the Chapter object
+    @Insert("INSERT INTO mybatis.chapters (name, section_id) VALUES (#{name}, #{sectionId});")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insertNewChapter(Chapter chapter);
 
     @Select("SELECT id, name FROM mybatis.chapters WHERE id = #{param1}")
     @Results(

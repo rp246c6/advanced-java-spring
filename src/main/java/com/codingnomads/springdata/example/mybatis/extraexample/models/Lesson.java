@@ -10,5 +10,6 @@ public class Lesson {
     private Long id;
     private String name;
     private String text;
+    private Long chapterId;  // Foreign key field
     private List<Image> imageList;
 }

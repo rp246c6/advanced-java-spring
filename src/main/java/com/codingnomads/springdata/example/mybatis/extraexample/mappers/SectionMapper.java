@@ -9,8 +9,10 @@ import org.apache.ibatis.mapping.FetchType;
 @Mapper
 public interface SectionMapper {
 
+    // Pass the Section OBJECT, not just a String name
     @Insert("INSERT INTO mybatis.sections (name) VALUES (#{name});")
-    void insertNewSection(String name);
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insertSection(Section section);
 
     @Select("SELECT id, name FROM mybatis.sections WHERE id = #{param1};")
     @Results(

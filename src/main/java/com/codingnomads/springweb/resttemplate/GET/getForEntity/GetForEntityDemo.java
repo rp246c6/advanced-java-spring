@@ -1,8 +1,12 @@
 /* CodingNomads (C)2024 */
 package com.codingnomads.springweb.resttemplate.GET.getForEntity;
 
+import com.codingnomads.springweb.resttemplate.GET.models.Activity;
 import com.codingnomads.springweb.resttemplate.GET.models.QuoteTemplate;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -34,6 +38,27 @@ public class GetForEntityDemo {
             } else {
                 System.out.println("Something went wrong! The response was not marked with status code 200");
             }
+
+            // Base URL with placeholders
+            String url = "https://bored-api.appbrewery.com/filter?type={type}&participants={participants}";
+
+            // Create a map of parameters
+            Map<String, String> params = new HashMap<>();
+            params.put("type", "education");
+            params.put("participants", "1");
+
+            // Submit GET request with params
+            ResponseEntity<Activity[]> activityResponseEntity = restTemplate.getForEntity(url, Activity[].class,params);
+
+
+            if (activityResponseEntity.getStatusCode().equals(HttpStatus.OK) && activityResponseEntity.getBody() != null) {
+                Activity[] activityTemplate = activityResponseEntity.getBody();
+                System.out.println(Arrays.toString(activityTemplate));
+            } else {
+                System.out.println("Something went wrong! The response was not marked with status code 200");
+            }
+
+
         };
     }
 }

@@ -30,7 +30,7 @@ public class PostForLocationMain {
                     .name("learn how to use postForLocation()")
                     .description("get comfortable using the RestTemplate postForLocation() method")
                     // be sure to use a valid user id
-                    .userId(380)
+                    .userId(19435)
                     .completed(false)
                     .build();
 

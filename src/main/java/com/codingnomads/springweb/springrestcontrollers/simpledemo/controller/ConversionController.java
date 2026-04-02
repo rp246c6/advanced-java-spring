@@ -26,4 +26,11 @@ public class ConversionController {
     public String returnTheString() {
         return text;
     }
+
+
+    @RequestMapping(path = "/backwards", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    public String returnBackwards() {
+        // Use StringBuilder's reverse function
+        return new StringBuilder(text).reverse().toString();
+    }
 }

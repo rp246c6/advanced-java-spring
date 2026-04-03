@@ -58,4 +58,22 @@ public class TaskController {
         taskRepository.deleteById(id);
         return ResponseEntity.ok().body(id);
     }
+
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
+
+        // 1. Resource Check: Ensure the ID exists in the repository
+        if (!taskRepository.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        // 2. Data Integrity: Force the body's ID to match the URL's ID
+        task.setId(id);
+
+        // 3. Execution: Save the updated entity
+        final Task updatedTask = taskRepository.save(task);
+
+        // 4. Response: Return the updated object
+        return ResponseEntity.ok(updatedTask);
+    }
 }

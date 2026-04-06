@@ -43,4 +43,35 @@ public class TaskController {
                 .mapToObj(i -> Task.builder().id((long) i).name(names.get(i)).build())
                 .collect(Collectors.toList());
     }
+
+    // 1. Filtering by multiple criteria (Status and Category)
+    @GetMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String filterTasks(
+            @RequestParam String status,
+            @RequestParam(required = false, defaultValue = "General") String category) {
+        return String.format("Filtering tasks for Status: %s and Category: %s", status, category);
+    }
+
+    // 2. Pagination (Common for AWS/Cloud datasets)
+    @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Task> getPagedTasks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int pageSize) {
+        // Mocking a paged response
+        return IntStream.range(0, pageSize)
+                .mapToObj(i -> Task.builder()
+                        .id((long) (page * pageSize + i))
+                        .name("Task " + (page * pageSize + i))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    // 3. Search with a specific character limit (Validation example)
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String searchTasks(@RequestParam(name = "q") String query) {
+        if (query.length() < 3) {
+            return "Search query too short. Please use at least 3 characters.";
+        }
+        return "Searching for tasks containing: " + query;
+    }
 }

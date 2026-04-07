@@ -49,4 +49,22 @@ public class TaskController {
             return ResponseEntity.ok().body(message);
         }
     }
+
+    //bulk create task
+    @PostMapping(value = "/api/tasks/bulk", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Iterable<Task>> createTasksBulk(@RequestBody java.util.List<Task> tasks) {
+        // Saves the entire list of tasks sent in the request body
+        Iterable<Task> savedTasks = taskRepository.saveAll(tasks);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTasks);
+    }
+
+    //update task
+    @PostMapping(value = "/api/tasks/update-completion")
+    public ResponseEntity<String> updateStatus(@RequestBody Boolean isCompleted) {
+        // This expects a raw boolean value (true/false) in the request body
+        String responseMessage = "Global task status set to: " + isCompleted;
+        System.out.println(responseMessage);
+
+        return ResponseEntity.ok(responseMessage);
+    }
 }

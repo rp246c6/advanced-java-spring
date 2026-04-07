@@ -49,4 +49,32 @@ public class TaskController {
     public String pathVariableIsNotEncoded(@PathVariable String name) {
         return name;
     }
+
+    @GetMapping("/find-by-name/{name}")
+    public Task getTaskByName(@PathVariable String name) {
+        // In a real app, you'd fetch this from a database
+        return Task.builder()
+                .id(101L)
+                .name(name)
+                .completed(false)
+                .build();
+    }
+
+    @GetMapping("/update-status/{id}/{isCompleted}")
+    public Task updateTaskStatus(
+            @PathVariable Long id,
+            @PathVariable(name = "isCompleted") Boolean status) {
+
+        return Task.builder()
+                .id(id)
+                .name("Updated Task")
+                .completed(status)
+                .build();
+    }
+
+    @GetMapping("/category/{catName}")
+    public String getCategory(@PathVariable(name = "catName") String category) {
+        return "Fetching tasks for category: " + category;
+    }
+
 }

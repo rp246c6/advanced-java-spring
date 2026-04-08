@@ -4,4 +4,9 @@ package com.codingnomads.springweb.gettingdatafromclient.handlingmultipartdata.r
 import com.codingnomads.springweb.gettingdatafromclient.handlingmultipartdata.models.DatabaseFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DatabaseFileRepository extends JpaRepository<DatabaseFile, Long> {}
+import java.util.List;
+
+public interface DatabaseFileRepository extends JpaRepository<DatabaseFile, Long> {
+    // Finds files where the name contains the search string (case-insensitive)
+    List<DatabaseFile> findByFileNameContainingIgnoreCase(String fileName);
+}

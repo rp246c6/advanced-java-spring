@@ -6,6 +6,7 @@ import com.codingnomads.springweb.gettingdatafromclient.handlingmultipartdata.mo
 import com.codingnomads.springweb.gettingdatafromclient.handlingmultipartdata.repositories.DatabaseFileRepository;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class HandleMultipartDataController {
     DatabaseFileRepository fileRepository;
 
     // @PostMapping("/uploadSingleFile")
-    @PostMapping()
+    @PostMapping("/uploadSingleFile")
     public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file) {
 
         String fileName;
@@ -86,13 +87,13 @@ public class HandleMultipartDataController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(databaseFile.getFileType()))
                 // display the file inline
-                // .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
+                 //.header(HttpHeaders.CONTENT_DISPOSITION, "inline")
                 // download file, without setting file name
-                // .header(HttpHeaders.CONTENT_DISPOSITION, "attachment")
+                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment")
                 // download file, and specify file name
-                .header(
+               /* .header(
                         HttpHeaders.CONTENT_DISPOSITION,
-                        String.format("attachment; filename=\"%s\"", databaseFile.getFileName()))
+                        String.format("attachment; filename=\"%s\"", databaseFile.getFileName()))*/
                 .body(new ByteArrayResource(databaseFile.getData()));
     }
 
@@ -148,5 +149,74 @@ public class HandleMultipartDataController {
         fileRepository.deleteById(fileId);
         return ResponseEntity.ok(
                 "File with ID " + fileId + " and name " + optional.get().getFileName() + " was deleted");
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchFilesByName(@RequestParam(name = "name") String searchTerm) {
+
+        // 1. Get the list of matching files from the DB
+        List<DatabaseFile> files = fileRepository.findByFileNameContainingIgnoreCase(searchTerm);
+
+        if (files.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No files found matching: " + searchTerm);
+        }
+
+        // 2. Map DatabaseFile entities to FileResponse DTOs
+        List<FileResponse> response = files.stream().map(file -> {
+
+            // Generate the download URL for each file
+            String downloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/images/")
+                    .path(String.valueOf(file.getId()))
+                    .toUriString();
+
+            return FileResponse.builder()
+                    .fileName(file.getFileName())
+                    .fileDownloadUri(downloadUri)
+                    .fileType(file.getFileType())
+                    .size((long) file.getData().length) // Calculating size from byte array
+                    .build();
+        }).toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/duplicate/{id}")
+    public ResponseEntity<?> duplicateFile(@PathVariable(name = "id") Long fileId,
+                                           @RequestParam(name = "newName") String newName) {
+
+        // 1. Find the original file
+        Optional<DatabaseFile> optional = fileRepository.findById(fileId);
+
+        if (optional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Original file not found with id: " + fileId);
+        }
+
+        DatabaseFile original = optional.get();
+
+        // 2. Create a copy with the new name
+        DatabaseFile duplicate = DatabaseFile.builder()
+                .fileName(newName) // Use the user-specified name
+                .data(original.getData()) // Copy the binary data
+                .fileType(original.getFileType()) // Copy the type
+                .build();
+
+        // 3. Save the duplicate
+        DatabaseFile savedDuplicate = fileRepository.save(duplicate);
+
+        // 4. Build the new download URI
+        String downloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/images/")
+                .path(String.valueOf(savedDuplicate.getId()))
+                .toUriString();
+
+        return ResponseEntity.ok(FileResponse.builder()
+                .fileName(savedDuplicate.getFileName())
+                .fileDownloadUri(downloadUri)
+                .fileType(savedDuplicate.getFileType())
+                .size((long) savedDuplicate.getData().length)
+                .build());
     }
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8")/>
+    <title th:text="${title}">Practice Title</title>
+    <style>
+        .highlight { color: #2c3e50; font-weight: bold; }
+    </style>
+</head>
+<body>
+<h1 th:text="${title}">Default Title</h1>
+
+<div>
+    <p><strong>Author:</strong> <span th:text="${author}">Author Name</span></p>
+    <p><strong>Current Task:</strong> <span th:text="${task}">Task Name</span></p>
+    <hr>
+    <p th:text="${message}">Default message text goes here.</p>
+</div>
+
+<br />
+<a th:href="@{/index}">Back to Greeting Page</a>
+</body>
+</html>

@@ -29,4 +29,14 @@ public class GreetingController {
         model.addAttribute("subjects", subjects);
         return "subjects";
     }
+
+    @GetMapping("/practice")
+    public String practice(Model model) {
+        model.addAttribute("title", "Practice Page");
+        model.addAttribute("author", "Spring Developer");
+        model.addAttribute("task", "Learning Thymeleaf Variables");
+        model.addAttribute("message", "This page was generated from the Greeting Controller.");
+        return "practice";
+    }
+
 }

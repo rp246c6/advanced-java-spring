@@ -17,6 +17,13 @@ public class HomeController {
         model.addAttribute("name", "Developer");
         model.addAttribute("language", "Java");
         model.addAttribute("framework", "Spring");
+
+        // Adding four additional attributes
+        model.addAttribute("version", "1.0.0");
+        model.addAttribute("environment", "Development");
+        model.addAttribute("status", "Active");
+        model.addAttribute("server", "Tomcat");
+
         return "model-page";
     }
 

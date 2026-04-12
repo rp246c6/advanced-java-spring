@@ -13,6 +13,16 @@
     <p>
         This is text on which we want to apply <strong>very special</strong> styling.
     </p>
+    <!-- 1. Utilizing the new .info-container style -->
+    <div class="info-container" style="max-width: 500px; text-align: left;">
+        <p>Welcome to the Practice Section!</p>
+
+        <!-- 2. Executing the new showTime function -->
+        <button type="button" th:onclick="showTime()">Show Current Time</button>
+
+        <!-- 3. Executing the new toggleTheme function -->
+        <button type="button" th:onclick="toggleTheme()">Switch Light/Dark Mode</button>
+    </div>
     <button type="button" th:onclick="greeting()">Click Me!!</button>
 </div>
 </body>

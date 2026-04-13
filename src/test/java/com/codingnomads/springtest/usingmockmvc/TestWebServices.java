@@ -1,7 +1,7 @@
 /* CodingNomads (C)2024 */
 package com.codingnomads.springtest.usingmockmvc;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -48,5 +48,31 @@ public class TestWebServices {
                 .andDo(print())
                 // the view name expected is greeting
                 .andExpect(view().name("greeting"));
+    }
+
+    // Technique 1: Path Variable & Plain Text Content
+    @Test
+    public void testEcho() throws Exception {
+        mockMvc.perform(get("/echo/HelloAWS"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Echo: HelloAWS"));
+    }
+
+    // Technique 2: JSON Response & JsonPath Validation
+    @Test
+    public void testGetStatusJson() throws Exception {
+        mockMvc.perform(get("/api/status"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("UP"));
+    }
+
+    // Technique 3: Query Params & View/Model Verification
+    @Test
+    public void testCustomGreeting() throws Exception {
+        mockMvc.perform(get("/custom-greeting").param("user", "CloudEngineer"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("greeting"))
+                .andExpect(model().attribute("name", "CloudEngineer"))
+                .andExpect(content().string(containsString("CloudEngineer")));
     }
 }

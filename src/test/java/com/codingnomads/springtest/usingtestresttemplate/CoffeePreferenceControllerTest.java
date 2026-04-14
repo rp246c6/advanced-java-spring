@@ -43,4 +43,32 @@ public class CoffeePreferenceControllerTest {
         assertThat(Objects.requireNonNull(postedCoffeePreference.getBody()).getId())
                 .isNotNull();
     }
+
+    @Test
+    public void testGetCoffeePreference() {
+        // 1. Create and POST a preference so we have something to GET
+        CoffeePreference preferenceToPost = CoffeePreference.builder()
+                .type("Latte")
+                .size(CoffeePreference.Size.MEDIUM)
+                .sugar(true)
+                .iced(false)
+                .intensity(5)
+                .build();
+
+        ResponseEntity<CoffeePreference> postResponse =
+                testRestTemplate.postForEntity("/coffee", preferenceToPost, CoffeePreference.class);
+
+        Long id = Objects.requireNonNull(postResponse.getBody()).getId();
+
+        // 2. Use the ID to test the GET endpoint
+        ResponseEntity<CoffeePreference> getResponse =
+                testRestTemplate.getForEntity("/coffee/" + id, CoffeePreference.class);
+
+        // 3. Assertions
+        assertThat(getResponse.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(getResponse.getBody()).isNotNull();
+        assertThat(getResponse.getBody().getId()).isEqualTo(id);
+        assertThat(getResponse.getBody().getType()).isEqualTo("Latte");
+    }
+
 }

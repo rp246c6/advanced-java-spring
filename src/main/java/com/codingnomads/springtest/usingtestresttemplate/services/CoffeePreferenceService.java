@@ -15,4 +15,10 @@ public class CoffeePreferenceService {
     public CoffeePreference insertNewCoffeePreference(CoffeePreference coffeePreference) {
         return repo.save(coffeePreference);
     }
+
+    public CoffeePreference getCoffeePreferenceById(Long id) {
+        // findById() is a default method provided by Spring Data JPA repositories
+        return repo.findById(id).orElse(null);
+    }
+
 }

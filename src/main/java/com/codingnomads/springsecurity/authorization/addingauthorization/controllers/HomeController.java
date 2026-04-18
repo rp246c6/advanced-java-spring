@@ -37,6 +37,27 @@ public class HomeController {
         return "authorization/home";
     }
 
+
+    // Only accessible by the USER account (or anyone with ROLE_USER)
+    @GetMapping("/user-only")
+    @PreAuthorize("hasRole('USER')")
+    public String userAccess() {
+        return "userpage";
+    }
+
+    // Only accessible by the ADMIN account
+    @GetMapping("/admin-only")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String adminAccess() {
+        return "adminpage";
+    }
+
+    // Only accessible by the SUPERUSER account
+    @GetMapping("/super-only")
+    @PreAuthorize("hasRole('SUPERU')")
+    public String superAccess() {
+        return "superpage";
+    }
     /*
        Method Security Annotations
 

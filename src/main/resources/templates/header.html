@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org">
+<head>
+    <!-- Common CSS links can go here -->
+</head>
+<body>
+<!-- Define the fragment name here -->
+<header th:fragment="header">
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">Home</a></li>
+
+            <!-- Role-based links -->
+            <li sec:authorize="hasRole('USER')">
+                <a th:href="@{/user-only}">User Area</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin-only}">Admin Dashboard</a>
+            </li>
+            <li sec:authorize="hasRole('SUPERU')">
+                <a th:href="@{/super-only}">SuperUser Panel</a>
+            </li>
+
+            <!-- Authentication-based items -->
+            <li sec:authorize="isAuthenticated()">
+                Welcome, <span th:text="${remoteUser}">User</span>!
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>SuperUser Panel</title>
+</head>
+<body>
+<!-- Pulls in your header.html -->
+<div th:replace="~{header :: header}"></div>
+
+<div style="padding: 20px; background-color: #f0f0f0;">
+    <h1>SuperUser Command Center</h1>
+    <p>Highest Level Access: Only users with <b>ROLE_SUPERU</b> can view this page.</p>
+</div>
+</body>
+</html>

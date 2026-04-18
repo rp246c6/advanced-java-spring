@@ -6,6 +6,8 @@
     <title>Secured</title>
 </head>
 <body>
+<!-- Pulls in your header.html -->
+<div th:replace="~{header :: header}"></div>
 <div layout:fragment="content" th:remove="tag">
     <h1>Only Admin is able to visit this page</h1>
     <p><a href="/" th:href="@{/}">Back to home page</a></p>

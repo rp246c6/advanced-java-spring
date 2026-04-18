@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>User Dashboard</title>
+</head>
+<body>
+<!-- Pulls in your header.html -->
+<div th:replace="~{header :: header}"></div>
+
+<div style="padding: 20px;">
+    <h1>User Area</h1>
+    <p>Welcome! You are seeing this because you have the <b>ROLE_USER</b> authority.</p>
+</div>
+</body>
+</html>

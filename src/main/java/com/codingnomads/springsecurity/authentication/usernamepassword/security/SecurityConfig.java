@@ -54,24 +54,24 @@ public class SecurityConfig {
     // the following beans are commented out to avoid conflict with CustomUserDetailsService
     // comment out the @Service annotation inside CustomUserDetailsService before uncommenting either of these
 
-//    @Bean
-//    public UserDetailsManager jdbcUserDetails(DataSource dataSource) {
-//        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-//        users.setAuthoritiesByUsernameQuery("SELECT a.id, a.authority FROM authorities a \n"
-//                + "JOIN user_authority_join_table uajt ON a.id = uajt.authority_id \n"
-//                + "JOIN users u ON u.id = uajt.user_id \n"
-//                + "WHERE u.username = ?");
-//        users.setUsersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?");
-//        return users;
-//    }
-//
-//    @Bean
-//    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-//        Authority userAuth = Authority.builder().authority(RoleEnum.ROLE_USER).build();
-//        UserPrincipal user1 =
-//                new UserPrincipal("USER1", passwordEncoder().encode("hi"), Collections.singletonList(userAuth));
-//        UserPrincipal user2 =
-//                new UserPrincipal("USER2", passwordEncoder().encode("hello"), Collections.singletonList(userAuth));
-//        return new InMemoryUserDetailsManager(user1, user2);
-//    }
+    /*@Bean
+    public UserDetailsManager jdbcUserDetails(DataSource dataSource) {
+        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
+        users.setAuthoritiesByUsernameQuery("SELECT a.id, a.authority FROM authorities a \n"
+                + "JOIN user_authority_join_table uajt ON a.id = uajt.authority_id \n"
+                + "JOIN users u ON u.id = uajt.user_id \n"
+                + "WHERE u.username = ?");
+        users.setUsersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?");
+        return users;
+    }*/
+
+   @Bean
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+        Authority userAuth = Authority.builder().authority(RoleEnum.ROLE_USER).build();
+        UserPrincipal user1 =
+                new UserPrincipal("USER1", passwordEncoder().encode("hi"), Collections.singletonList(userAuth));
+        UserPrincipal user2 =
+                new UserPrincipal("USER2", passwordEncoder().encode("hello"), Collections.singletonList(userAuth));
+        return new InMemoryUserDetailsManager(user1, user2);
+    }
 }
